@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "graph-pbrs"
+version = "0.1.0"
+description = "Sparse-Reward Graph Traversal with Potential-Based Reward Shaping"
+authors = ["Your Name <you@example.com>"]
+license = "MIT"
+packages = [
+    {include = "pbrs", from = "src"},
+    {include = "cli", from = "src"},
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+networkx = "^3.2"
+scipy = "^1.11"
+numpy = "^1.26"
+gymnasium = "^0.29"
+# Note: Users may prefer installing torch with CUDA-specific wheels separately.
+torch = { version = "^2.2", optional = true }
+
+[tool.poetry.extras]
+deep = ["torch"]
+
+[tool.poetry.scripts]
+train-graph = "cli.train:main"
+
+[build-system]
+requires = ["poetry-core>=1.5.0"]
+build-backend = "poetry.core.masonry.api" 
