@@ -13,8 +13,8 @@ __all__ = ["DistancePotential"]
 class DistancePotential(Potential):
     """Potential Φ(s) = -d(s, goal) where *d* is the shortest-path length.
 
-    If a state is unreachable from any goal, its distance is ∞ and the
-    potential is set to a large negative value (``-max_dist``).
+    States that cannot reach any goal receive a potential of ``-max_dist``
+    (the worst finite distance observed). Terminal states remain at zero.
     """
 
     def __init__(self, mdp: GraphMDP) -> None:
@@ -30,5 +30,6 @@ class DistancePotential(Potential):
     def __call__(self, s: int) -> float:
         d = self._dist.get(s, np.inf)
         if np.isinf(d):
-            return 0.0  # unreachable or fail nodes
-        return -float(d) 
+            # Unreachable states are assigned the worst potential
+            return -float(self._max_dist)
+        return -float(d)
